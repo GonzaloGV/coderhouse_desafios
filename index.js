@@ -1,43 +1,36 @@
-const fs = require("fs");
-const express = require("express");
-const {
-  genRandomNumber,
-  initProductFile,
-  getProductArray,
-  serializeObject,
-} = require("./helpers");
+import express from "express";
+import inventory from "./crud.js";
+import { Serializer } from './crud.js';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
-initProductFile(genRandomNumber(3, 15));
-const productArr = getProductArray();
-const visitsCounter = {
-  visitas: {
-    items: 0,
-    item: 0,
-  },
-};
 
-app.get("/items", (req, res) => {
-  visitsCounter.visitas.items++;
-  const jsonResponse = {
-    items: productArr,
-    cantidad: productArr.length,
-  };
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
-  res.end(serializeObject(jsonResponse));
+
+app.get("/api/productos/listar", async (req, res) => {
+  const jsonResponse = inventory.getProducts();
+
+  res.end(Serializer.serializeProduct(jsonResponse));
 });
 
-app.get("/item-random", (req, res) => {
-  visitsCounter.visitas.item++;
-  const randomIdx = genRandomNumber(0, productArr.length);
-  const jsonResponse = {
-    item: productArr[randomIdx],
-  };
-  res.end(serializeObject(jsonResponse));
+app.get("/api/productos/listar/:id", (req, res) => {
+  const id = Number(req.params['id']);
+  const jsonResponse = inventory.getProductById(id);
+
+  res.end(Serializer.serializeProduct(jsonResponse));
 });
 
-app.get("/visitas", (req, res) => res.end(serializeObject(visitsCounter)));
+app.post("/api/productos/guardar/", (req, res) => {
+  const product = req.body;
+  console.log(req.body)
+  const jsonResponse = inventory.addProduct(product);
+
+  res.end(Serializer.serializeProduct(jsonResponse));
+
+});
 
 try {
   app.listen(port, (error) => {
