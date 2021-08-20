@@ -1,36 +1,14 @@
 import express from "express";
-import inventory from "./crud.js";
-import { Serializer } from './crud.js';
-import bodyParser from 'body-parser';
+import productos from './routes/productos.route.js';
 
 const app = express();
 const port = 3000;
 
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+app.use(express.static('public'))
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use('/api/productos', productos);
 
-
-app.get("/api/productos/listar", async (req, res) => {
-  const jsonResponse = inventory.getProducts();
-
-  res.end(Serializer.serializeProduct(jsonResponse));
-});
-
-app.get("/api/productos/listar/:id", (req, res) => {
-  const id = Number(req.params['id']);
-  const jsonResponse = inventory.getProductById(id);
-
-  res.end(Serializer.serializeProduct(jsonResponse));
-});
-
-app.post("/api/productos/guardar/", (req, res) => {
-  const product = req.body;
-  console.log(req.body)
-  const jsonResponse = inventory.addProduct(product);
-
-  res.end(Serializer.serializeProduct(jsonResponse));
-
-});
 
 try {
   app.listen(port, (error) => {

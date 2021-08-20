@@ -27,7 +27,6 @@ class InventoryManager {
   }
 
   addProduct(product) {
-    console.log(product);
     const finalProduct = {
       id: this.#idCounter,
       ...product
@@ -36,6 +35,26 @@ class InventoryManager {
     this.#idCounter++;
 
     return finalProduct;
+  }
+
+  updateProduct(product) {
+    const idx = this.#findIndex(Number(product.id));
+    if (idx === -1) return {'error': 'producto no encontrado'};
+    this.#productArray[idx] = product;
+    
+
+    return product;
+  }
+
+  deleteProduct(id) {
+    const idx = this.#findIndex(id);
+    if (idx === -1) return {'error': 'producto no encontrado'};
+    const productDeleted = this.#productArray.splice(idx, 1);
+    return productDeleted[0];
+  }
+
+  #findIndex(id) {
+    return this.#productArray.findIndex(prods => prods.id === id)
   }
 
 }

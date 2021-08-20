@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <style>
+        .productForm * {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ingrese un Producto.</h1>
+    <form class='productForm' name="product" action="/api/productos/guardar" method="POST" enctype="application/x-www-form-urlencoded">
+        <label for="#title">Titulo</label>
+        <input id='title' name="title" type="text">
+        <label for="#price">precio</label>
+        <input id='price' name="price" type="Number">
+        <label for="#thumbnail">thumbnail</label>
+        <input id='thumbnail' name='thumbnail' type="text">
+        <input type="submit" value="OK">
+    </form>
+</body>
+</html>
