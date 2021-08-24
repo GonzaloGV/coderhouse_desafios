@@ -21,7 +21,7 @@ router.post("/guardar", (req, res) => {
   const product = req.body;
   const jsonResponse = inventory.addProduct(product);
 
-  res.end(Serializer.serializeProduct(jsonResponse));
+  res.redirect("/");
 });
 
 router.put("/actualizar/:id", (req, res) => {
