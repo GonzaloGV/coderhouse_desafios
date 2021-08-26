@@ -7,7 +7,7 @@ const router = express.Router();
 router.get("/listar", async (req, res) => {
   const productList = inventory.getProducts();
   const isEmpty = productList.length === 0;
-  res.render("main.pug", { productList, isEmpty });
+  res.render("main", { productList, isEmpty });
 });
 
 router.get("/listar/:id", (req, res) => {
