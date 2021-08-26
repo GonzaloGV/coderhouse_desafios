@@ -1,0 +1,13 @@
+.w-75.mx-auto.mt-2.py-3
+  h2.text-center Ingrese un Producto
+  form(name='product' action='/api/productos/guardar' method='POST' enctype='application/x-www-form-urlencoded')
+    .mb-3
+      label.form-label(for='title') Nombre
+      input#title.form-control(type='text' aria-describedby='productTitle' name='title')
+    .mb-3
+      label.form-label(for='price') Precio
+      input#price.form-control(type='number' name='price')
+    .mb-3
+      label.form-label(for='thumbnail') Thumbnail
+      input#thumbnail.form-control(type='text' name='thumbnail')
+    button.btn.btn-primary(type='submit') Enviar

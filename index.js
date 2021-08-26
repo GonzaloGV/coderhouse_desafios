@@ -4,18 +4,9 @@ import handlebars from "express-handlebars";
 
 const { pathname: __dirname } = new URL("./", import.meta.url);
 const app = express();
-const port = 3000;
+const PORT = 3000;
 
-app.engine(
-  "hbs",
-  handlebars({
-    extname: ".hbs",
-    defaultLayout: "index.hbs",
-    layoutsDir: __dirname + "views/layouts",
-    partialsDir: __dirname + "views/partials/",
-  })
-);
-app.set("view engine", "hbs");
+app.set("view engine", "pug");
 app.set("views", "./views");
 
 // app.use(express.static("public"));
@@ -24,10 +15,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/productos", productos);
 
 app.get("/", (request, response) => {
-  response.render("addProduct");
+  response.render("addProduct.pug");
 });
 
-app.listen(port, (error) => {
+app.listen(PORT, (error) => {
   if (error) throw new Error(`Error en servidor ${error}`);
-  console.log(`Servidor corriendo en el puerto ${port}`);
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

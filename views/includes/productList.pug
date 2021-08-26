@@ -1,0 +1,20 @@
+- var productList = productList
+#productList
+.text-center 
+  h2 Product List
+  if isEmpty
+    .alert.alert-info.d-flex.justify-content-center(role='alert') 
+      h2 No hay productos disponibles 
+  else
+    table.table.table-striped 
+      tr 
+        th Product 
+        th Price 
+        th Thumbnail
+      each product in productList
+        tr 
+          td=product.title
+          td=product.price
+          td 
+            img(src=product.thumbnail alt='')
+
