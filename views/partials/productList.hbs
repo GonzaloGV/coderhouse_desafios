@@ -1,25 +1,27 @@
 <div class="p-3 text-center">
   <div class="text-center">
-    <h2>Product List</h2>
+    <h2>Lista de productos</h2>
   </div>
-  {{#if isEmpty}}
-    <div class="alert alert-info d-flex justify-content-center" role="alert">
-      <h2>No hay productos disponibles</h2>
-    </div>
-  {{else}}
-    <table class="table table-striped">
-      <tr>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Thumbnail</th>
-      </tr>
-      {{#each productList as |product|}}
+  <div class="tableContainer">
+    {{#if isEmpty}}
+      <div class="alert alert-info d-flex justify-content-center" role="alert">
+        <h2>No hay productos disponibles</h2>
+      </div>
+    {{else}}
+      <table class="productTable table table-striped">
         <tr>
-          <td>{{product.title}}</td>
-          <td>{{product.price}}</td>
-          <td><img src={{product.thumbnail}} alt="" /></td>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Thumbnail</th>
         </tr>
-      {{/each}}
-    </table>
+        {{#each productList as |product|}}
+          <tr>
+            <td>{{product.title}}</td>
+            <td>{{product.price}}</td>
+            <td><img src={{product.thumbnail}} alt="" /></td>
+          </tr>
+        {{/each}}
+      </table>
+  </div>
   {{/if}}
 </div>

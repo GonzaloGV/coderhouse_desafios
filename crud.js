@@ -1,12 +1,14 @@
 import * as fs from "fs";
 
+const productArray = [];
+
 class InventoryManager {
   #idCounter;
   #productArray;
 
   constructor() {
     this.#idCounter = 1;
-    this.#productArray = [];
+    this.#productArray = productArray;
   }
 
   getProductById(id) {

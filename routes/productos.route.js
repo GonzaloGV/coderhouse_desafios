@@ -18,10 +18,14 @@ router.get("/listar/:id", (req, res) => {
 });
 
 router.post("/guardar", (req, res) => {
+  const io = req.app.get("socketio");
   const product = req.body;
   const jsonResponse = inventory.addProduct(product);
+  const serializedJson = Serializer.serializeProduct(jsonResponse);
 
-  res.redirect("/");
+  io.emit("product list update", serializedJson);
+
+  res.end(serializedJson);
 });
 
 router.put("/actualizar/:id", (req, res) => {
