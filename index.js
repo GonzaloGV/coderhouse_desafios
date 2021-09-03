@@ -4,6 +4,7 @@ import http from "http";
 import { Server } from "socket.io";
 import products from "./routes/productos.route.js";
 import inventory from "./crud.js";
+import messageArr from "./chat.js";
 
 const { pathname: __dirname } = new URL("./", import.meta.url);
 const app = express();
@@ -11,6 +12,7 @@ const port = 3000;
 
 const server = http.createServer(app);
 const io = new Server(server);
+messageArr.loadMessages();
 
 app.engine(
   "hbs",
@@ -35,12 +37,23 @@ io.on("connection", (socket) => {
   socket.on("product added", async (formData) => {
     console.log(formData);
   });
+
+  socket.on("send msg", async (msg) => {
+    messageArr.addMessage(JSON.parse(msg));
+    messageArr.persistMsgs();
+    socket.broadcast.emit("new msg", msg);
+  });
 });
 
 app.get("/", (request, response) => {
   const productList = inventory.getProducts();
   const isEmpty = productList.length === 0;
-  response.render("addProduct", { productList: productList, isEmpty: isEmpty });
+  const messages = messageArr.getMessages();
+  response.render("addProduct", {
+    productList: productList,
+    isEmpty: isEmpty,
+    messages,
+  });
 });
 
 server.listen(port, (error) => {

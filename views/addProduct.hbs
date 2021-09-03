@@ -1,11 +1,16 @@
 {{> addProductForm }}
 {{> productList }}
+{{> messageCentral}}
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
 <script>
     let socket = io();
     const form = document.getElementById('productForm');
     const tableContainer = document.querySelector('.tableContainer');
+    const messageContainer = document.querySelector('.messagesContainer');
+    const emailInput = document.getElementById('email');
+    const msgInput = document.getElementById('message');
+    const btnSubmitMsg = document.querySelector('.btn--send')
 
     const updateProductList = (product) => {
         const table = tableContainer.querySelector('.productTable')
@@ -28,6 +33,39 @@
             `)
         }
     }
+    const createMessage = (rawMsgText) => {
+        const date = new Date();
+        const options = {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formatter = new Intl.DateTimeFormat("UTC", options);
+        const email = emailInput.value;
+        return { sender: email, date: formatter.format(date), msg: rawMsgText }
+    }
+    const addMessageToContainer = (message) => {
+        const {date, sender, msg} = message;
+        const markup = `
+            <p>
+            <span class='text-primary'>${sender}</span><span class='text-info'> [${date}]</span><span class='text-dark'> ${msg}</span>
+            </p>
+        `;
+        messageContainer.insertAdjacentHTML('beforeend', markup);
+    }
+
+    // Listeners
+    btnSubmitMsg.addEventListener('click', async (e) => {
+        const rawMsgText = msgInput.value;
+        const msg = createMessage(rawMsgText);
+        addMessageToContainer(msg);
+
+        socket.emit("send msg", JSON.stringify(msg));
+        
+    })
+    
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -39,9 +77,14 @@
             },
             body: JSON.stringify(formData),
         });
-        console.log(response.ok);
+
         if (response.ok)
             socket.emit('product added', JSON.stringify(formData));
+    })
+
+    socket.on('new msg', (msg) => {
+        const parsedMsg = JSON.parse(msg);
+        addMessageToContainer(parsedMsg);
     })
 
     socket.on('product list update', (product) => {

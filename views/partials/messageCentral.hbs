@@ -1,0 +1,17 @@
+<h2 class="mt-5">Centro de Mennsajes</h2>
+<div class="messagesWrapper w-75 mx-auto mt-5 text-start">
+  <input id="email" type="email" placeholder="diego@outlook.com" />
+  <hr class="solid" />
+  <div class="messagesContainer">
+    {{#each messages as |msg|}}
+      <p>
+        <span class="text-primary">{{msg.sender}}</span><span class="text-info">
+          [{{msg.date}}]</span><span class="text-dark"> {{msg.msg}}</span>
+      </p>
+    {{/each}}
+  </div>
+  <div class="btnsContainer text-center">
+    <input id="message" type="text" placeholder="Ingrese un mensaje" />
+    <button type="submit" class="btn btn-primary btn--send">Enviar</button>
+  </div>
+</div>
