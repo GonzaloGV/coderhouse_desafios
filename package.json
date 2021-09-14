@@ -1,5 +1,5 @@
 {
-  "name": "desafio_2",
+  "name": "entrega_final",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,15 +8,17 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GonzaloGV/coderhouse_desafios.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GonzaloGV/coderhouse_desafios/issues"
+  },
+  "homepage": "https://github.com/GonzaloGV/coderhouse_desafios#readme",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "express-formidable": "^1.2.0",
-    "express-handlebars": "^5.3.3",
-    "multer": "^1.4.3",
-    "nodemon": "^2.0.12",
-    "socket.io": "^4.2.0"
+    "express": "^4.17.1"
   }
 }
