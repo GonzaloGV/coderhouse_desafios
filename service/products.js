@@ -5,7 +5,7 @@ class ProductsService {
     return productsDAO.createProduct(productData);
   }
 
-  getProducts() {
+  async getProducts() {
     return productsDAO.getProducts();
   }
 

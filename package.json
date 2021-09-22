@@ -19,6 +19,9 @@
   },
   "homepage": "https://github.com/GonzaloGV/coderhouse_desafios#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "socket.io": "^4.2.0",
+    "sqlite3": "^5.0.2"
   }
 }

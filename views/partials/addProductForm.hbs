@@ -1,0 +1,44 @@
+<div class="w-75 mx-auto mt-2 py-3">
+  <h2 class="text-center">Ingrese un Producto</h2>
+  <form
+    id="productForm"
+    name="product"
+    action="/api/productos/guardar"
+    method="POST"
+    enctype="application/x-www-form-urlencoded"
+  >
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        aria-describedby="productTitle"
+        name="name"
+      />
+    </div>
+    <div class="mb-3">
+      <label for="price" class="form-label">Precio</label>
+      <input type="number" class="form-control" id="price" name="price" />
+    </div>
+    <div class="mb-3">
+      <label for="thumbnail" class="form-label">Thumbnail</label>
+      <input type="text" class="form-control" id="thumbnail" name="imgUrl" />
+    </div>
+    <div class="mb-3">
+      <label for="stock" class="form-label">Stock</label>
+      <input type="number" class="form-control" id="stock" name="stock" />
+    </div>
+    <div class="form-floating mb-3">
+      <textarea
+        type=""
+        id="floatingDescription"
+        name="description"
+        class="form-control"
+        style="height: 15%;"
+      ></textarea>
+      <label for="floatingDescription">Descripcion</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+</div>
