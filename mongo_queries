@@ -1,0 +1,33 @@
+// creando db
+use prueba
+
+// creando colleccion items
+db.createCollection("item", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["nombre", "categoria", "stock"],
+            properties: {
+                nombre: {
+                    bsonType: "string"
+                },
+                categoria: {
+                    bsonType: "string"
+                },
+                stock: {
+                    bsonType: "int"
+                }
+            }
+        }
+    }
+})
+
+// Insertando items en la tabla
+db.item.bulkWrite([
+    {insertOne: {"document": {nombre:"Fideos", categoria:"Harina", stock: 20}}},
+    {insertOne: {"document": {nombre:"Leche", categoria:"Lacteos", stock: 30}}},
+    {insertOne: {"document": {nombre:"Crema", categoria:"Lacteos", stock: 15}}}
+])
+
+// lista de items agregados
+db.items.find()
