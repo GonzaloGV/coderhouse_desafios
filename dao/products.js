@@ -1,67 +1,66 @@
+import conn from "../db/index.js";
+import mongoose from "mongoose";
+
 class ProductsDAO {
-  idCounter = 1;
-  productArr = [];
   notFoundError = { error: "product not found" };
+  Product = conn.model("Product");
 
   async createProduct(productData) {
     const { name, description, code, imgUrl, price, stock } = productData;
     const product = {
-      id: this.idCounter,
-      timestamp: Date.now(),
       name,
       description,
-      code,
       imgUrl,
       price,
       stock,
+      code,
     };
 
-    this.productArr.push(product);
-    this.idCounter += 1;
+    await this.Product.create(product, function (err) {
+      if (err) throw err;
+    });
 
     return product;
   }
 
   async getProducts() {
-    return this.productArr;
+    const products = await this.Product.find();
+
+    return products;
   }
 
   async getProductById(id) {
-    const idx = this.productArr.indexOf((product) => product.id === id);
-    if (idx === -1) return this.notFoundError;
-
-    return this.productArr[idx];
+    try {
+      id = mongoose.Types.ObjectId(id);
+      const product = await this.Product.findById(id);
+      return product;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async updateProduct(productData) {
-    const { id, name, description, code, imgUrl, price, stock } = productData;
-    const idx = this.productArr.indexOf((product) => product.id === id);
-
-    if (idx === -1) return this.notFoundError;
-
-    this.productArr.splice(idx, 1);
-    const product = {
-      id,
-      timestamp: Date.now(),
-      name,
-      description,
-      code,
-      imgUrl,
-      price,
-      stock,
-    };
-    this.productArr.push(product);
-    return product;
+    try {
+      const { id, ...newProduct } = productData;
+      const filter = { _id: mongoose.Types.ObjectId(id) };
+      const product = await this.Product.findOneAndUpdate(filter, newProduct, {
+        new: true,
+      });
+      return product;
+    } catch (err) {
+      throw err;
+    }
   }
 
   async deleteProduct(id) {
-    const idx = this.productArr.indexOf((product) => product.id === id);
-
-    if (idx === -1) return this.notFoundError;
-
-    const product = this.productArr.splice(idx, 1);
-
-    return product;
+    try {
+      const { id, ...newProduct } = productData;
+      const filter = { _id: mongoose.Types.ObjectId(id) };
+      const product = await this.Product.findOneAndDelete(filter);
+      return product;
+    } catch (err) {
+      throw err;
+    }
   }
 }
 

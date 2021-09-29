@@ -1,19 +1,21 @@
 import messagesDAO from "../dao/messages.js";
 
 class MessagesService {
-  loadMsgs() {
-    return messagesDAO.loadMsgs();
-  }
-  async persistMsgs() {
-    return messagesDAO.persistMsgs();
-  }
-
   addMsg(msg) {
-    return messagesDAO.addMsg(msg);
+    try {
+      const parsedMsg = JSON.parse(msg);
+      return messagesDAO.addMsg(parsedMsg);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  getMsgs() {
-    return messagesDAO.getMsgs();
+  async getMsgs() {
+    try {
+      return await messagesDAO.getMsgs();
+    } catch (err) {
+      console.error(err);
+    }
   }
 }
 

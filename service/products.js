@@ -1,16 +1,28 @@
 import productsDAO from "../dao/products.js";
 
 class ProductsService {
-  createProduct(productData) {
+  async createProduct(productData) {
     return productsDAO.createProduct(productData);
   }
 
   async getProducts() {
-    return productsDAO.getProducts();
+    try {
+      const products = await productsDAO.getProducts();
+
+      return products;
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
-  getProductById(id) {
-    return productsDAO.getProductById(id);
+  async getProductById(id) {
+    try {
+      const product = await productsDAO.getProductById(id);
+
+      return product;
+    } catch (err) {
+      console.error(err.message);
+    }
   }
 
   updateProduct(productData) {

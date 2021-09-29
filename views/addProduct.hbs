@@ -15,12 +15,12 @@
         const table = tableContainer.querySelector('.productTable')
         const markup = `
             <tr>
-                <td>${product.title}</td>
+                <td>${product.name}</td>
                 <td>${product.price}</td>
-                <td><img src=${product.thumbnail} alt="" /></td>
+                <td>${product.stock}</td>
+                <td><img src=${product.imgUrl} alt="" /></td>
             </tr>
         `
-        console.log(table);
         if (table) {
             table.insertAdjacentHTML('beforeend', markup);
         } else {
@@ -84,6 +84,7 @@
 
     socket.on('product added', (product) => {
         console.log("producto agregado");
+        console.log(product);
         const parsedProduct = JSON.parse(product);
         updateProductList(parsedProduct);
     })

@@ -21,6 +21,7 @@ class ProductsController {
 
   async getProducts(req, res) {
     const id = Number(req.params["id"]);
+
     if (id) {
       const product = await productsService.getProductById(id);
       res.end(JSON.stringify(product));
@@ -63,6 +64,7 @@ class ProductsController {
   async addProductView(req, res) {
     try {
       const productList = await productsService.getProducts();
+
       const templateVariables = {
         productList,
         isEmpty: productList.length === 0,
