@@ -1,10 +1,13 @@
 import express from "express";
 import productRouter from "./routes/products.js";
 import carritoRouter from "./routes/carrito.js";
+import authRouter from "./routes/auth.js";
 import handlebars from "express-handlebars";
 import http from "http";
 import createSocketIo from "./socketio.js";
 import initMessageListeners from "./listeners/messagesListeners.js";
+import cookieParser from "cookie-parser";
+import session from "express-session";
 
 const app = express();
 const server = http.createServer(app);
@@ -39,8 +42,20 @@ app.set("socketio", io);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// session middleware
+app.use(cookieParser());
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 60 * 1000 },
+  })
+);
+
 // routes
 app.use("/products", productRouter);
+app.use("/", authRouter);
 // app.use("/carrito", carritoRouter);
 
 server.listen(port, (err) => {

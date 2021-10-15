@@ -20,6 +20,10 @@ class ProductsController {
   }
 
   async getProducts(req, res) {
+    const user = req.session.user;
+
+    if (!user) return res.redirect("/login");
+
     const id = Number(req.params["id"]);
 
     if (id) {
@@ -27,7 +31,12 @@ class ProductsController {
       res.end(JSON.stringify(product));
     }
     const productList = await productsService.getProducts();
-    res.render("main", { productList, isEmpty: productList.length === 0 });
+
+    res.render("main", {
+      productList,
+      isEmpty: productList.length === 0,
+      user,
+    });
   }
 
   async getProduct(req, res) {
